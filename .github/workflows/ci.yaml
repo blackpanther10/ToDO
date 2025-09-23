@@ -32,3 +32,19 @@ jobs:
         run: |
           source venv/bin/activate
           pytest
+          
+      - name: Notifier Discord succès
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d "{\"content\":\"CI réussie pour \`${{ github.repository }}\` sur \`${{ github.ref_name }}\` par ${{ github.actor }}. [Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\"}" \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Notifier Discord échec
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d "{\"content\":\"⚠️ CI échouée pour \`${{ github.repository }}\` sur \`${{ github.ref_name }}\` par ${{ github.actor }}. [Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\"}" \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
