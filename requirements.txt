@@ -1,6 +1,6 @@
 iniconfig>=1.1.1
-packaging==25.0
-pluggy==1.5.0
-pytest==8.3.5
-tomli==2.2.1
-typing-extensions==4.13.2
+packaging>=21.3
+pluggy>=1.5.0
+pytest>=8.0.0
+tomli>=2.2.1
+typing-extensions>=4.0.0
