@@ -1,0 +1,50 @@
+---
+- name: Déploiement complet de l'application todo-app
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Mettre à jour la liste des paquets
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Installer Git, Python et pip
+      apt:
+        name:
+          - git
+          - python3
+          - python3-venv
+          - python3-pip
+        state: present
+
+    - name: Créer le dossier /opt/todo-app s'il n'existe pas
+      file:
+        path: /opt/todo-app
+        state: directory
+        mode: '0755'
+
+    - name: Cloner ou mettre à jour le dépôt GitHub
+      git:
+        repo: "https://github.com/blackpanther10/ToDO.git"
+        dest: /opt/todo-app
+        version: dev
+        force: yes
+
+    - name: Créer un environnement virtuel Python
+      command: python3 -m venv /opt/todo-app/venv
+      args:
+        creates: /opt/todo-app/venv
+
+    - name: Installer les dépendances Python
+      pip:
+        requirements: /opt/todo-app/requirements.txt
+        virtualenv: /opt/todo-app/venv
+        virtualenv_command: python3 -m venv
+
+    - name: Lancer l'application Python
+      command: /opt/todo-app/venv/bin/python /opt/todo-app/src/main.py
+    
+    - name: Afficher un message de fin
+      debug:
+        msg: "Déploiement terminé : code disponible dans /opt/todo-app"
