@@ -2,7 +2,7 @@ name: Déploiement Todo-App2
 
 on:
   workflow_run:
-    workflows: ["CI"]   
+    workflows: ["CI"]
     types:
       - completed
 
@@ -14,5 +14,8 @@ jobs:
       - name: Récupérer le code
         uses: actions/checkout@v3
 
+      - name: Lister fichiers pour debug
+        run: ls -l
+
       - name: Exécuter le playbook Ansible
-        run: ansible-playbook -i ./inventory.ini ./playbook.yml
+        run: ansible-playbook -i inventory.ini playbook.yml
