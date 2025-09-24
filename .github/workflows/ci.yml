@@ -38,7 +38,7 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" \
           -X POST \
-          -d "{\"content\":\"CI réussie pour \`${{ github.repository }}\` sur \`${{ github.ref_name }}\` par ${{ github.actor }}. [Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\"}" \
+          -d "{\"content\":\"CI réussie pour rep \`${{ github.repository }}\` sur \`${{ github.ref_name }}\` par ${{ github.actor }}. [Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\"}" \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Notifier Discord échec
