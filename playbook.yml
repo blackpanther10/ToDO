@@ -8,7 +8,7 @@
       apt:
         update_cache: yes
         upgrade: yes
-
+     
     - name: Installer Git, Python et pip
       apt:
         name:
@@ -44,7 +44,15 @@
 
     - name: Lancer l'application Python
       command: /opt/todo-app/venv/bin/python /opt/todo-app/src/main.py
-    
+      environment:
+        LC_ALL: "C.UTF-8"
+        LANG: "C.UTF-8"
+      register: result
+
+    - name: Afficher le résultat du test
+      debug:
+        var: result.stdout
+
     - name: Afficher un message de fin
       debug:
         msg: "Déploiement terminé : code disponible dans /opt/todo-app"
